@@ -1,0 +1,82 @@
+# Built application files
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+out/
+release/
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration
+local.properties
+*.local
+
+# Android Studio / IntelliJ
+*.iml
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/compiler.xml
+.idea/codeStyles/
+.idea/jarRepositories.xml
+*.ipr
+*.iws
+
+# Android Studio Navigation editor
+.navigation/
+
+# External native build (NDK, CMake)
+.externalNativeBuild/
+.cxx/
+
+# Captures
+captures/
+
+# Keystore (no subir claves)
+*.jks
+*.keystore
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Kotlin
+*.kotlin_module
+
+# Proguard
+proguard/
+
+# Signing
+signing/
+
+# Misc
+*.swp
+*~
+*.bak
+*.tmp
