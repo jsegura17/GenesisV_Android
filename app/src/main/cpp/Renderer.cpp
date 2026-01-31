@@ -9,8 +9,10 @@
 
 #include "AndroidOut.h"
 #include "JniBridge.h"
+#include "LevelManager.h"
 #include "Shader.h"
 #include "ShaderColor.h"
+#include "TileTextureManager.h"
 #include "Utility.h"
 #include "TextureAsset.h"
 
@@ -114,6 +116,25 @@ void Renderer::render() {
     const float aspect = (height_ > 0) ? float(width_) / height_ : 1.f;
     constexpr float kNear = 0.1f;
     constexpr float kFar = 100.f;
+
+    if (sceneIndex_ == 0 && levelManager_) {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        shader_->activate();
+        float projectionMatrix[16] = {0};
+        Utility::buildOrthographicMatrix(
+                projectionMatrix,
+                kProjectionHalfHeight,
+                aspect,
+                kProjectionNearPlane,
+                kProjectionFarPlane);
+        shader_->setProjectionMatrix(projectionMatrix);
+        shader_->setTexOffset(0.f, 0.f);
+        levelManager_->Draw(*shader_);
+        drawBackButtonOverlay();
+        auto swapResult = eglSwapBuffers(display_, surface_);
+        assert(swapResult == EGL_TRUE);
+        return;
+    }
 
     if (exampleIndex_ >= 1 && exampleIndex_ <= 15) {
         angle_ += 0.5f;
@@ -451,10 +472,18 @@ void Renderer::updateRenderArea() {
  * @brief Create geometry for the selected example (001-006) or default textured quad.
  */
 void Renderer::createModels() {
-    aout << "Renderer: example index " << exampleIndex_ << " (0=Base, 1=001, ... 16=015)"
+    aout << "Renderer: example index " << exampleIndex_ << ", scene index " << sceneIndex_
          << std::endl;
 
     auto assetManager = app_->activity->assetManager;
+
+    if (sceneIndex_ == 0) {
+        tileTextureManager_ = std::make_unique<TileTextureManager>(assetManager);
+        levelManager_ = std::make_unique<LevelManager>(
+                [this](int tileId) { return tileTextureManager_->getTextureId(tileId); });
+        levelManager_->LoadLevel({{1, 2, 7, 2, 3}, {0, 5, 5, 5, 0}});
+        return;
+    }
 
     switch (exampleIndex_) {
         case 1: { // 001: Triángulo rotando (R, G, B)
@@ -843,7 +872,7 @@ void Renderer::buildTileQuad015(AAssetManager *assetManager) {
 }
 
 void Renderer::drawBackButtonOverlay() {
-    if (exampleIndex_ < 1 || width_ <= 0 || height_ <= 0) return;
+    if ((exampleIndex_ < 1 && sceneIndex_ < 0) || width_ <= 0 || height_ <= 0) return;
 
     PendingBackLabel pending;
     if (getPendingBackButtonLabel(&pending) && pending.pixels && pending.width > 0 && pending.height > 0) {
@@ -930,7 +959,7 @@ void Renderer::handleInput() {
             case AMOTION_EVENT_ACTION_POINTER_DOWN: {
                 aout << "(" << pointer.id << ", " << x << ", " << y << ") "
                      << "Pointer Down";
-                if (exampleIndex_ >= 1) {
+                if (exampleIndex_ >= 1 || sceneIndex_ >= 0) {
                     int px = static_cast<int>(x);
                     int py = static_cast<int>(y);
                     if (px >= kBackButtonLeft && px <= kBackButtonLeft + kBackButtonWidth &&

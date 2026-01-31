@@ -9,6 +9,8 @@
 #include "Model.h"
 #include "Shader.h"
 #include "ShaderColor.h"
+#include "LevelManager.h"
+#include "TileTextureManager.h"
 
 struct android_app;
 
@@ -17,10 +19,12 @@ public:
     /*!
      * @param pApp the android_app this Renderer belongs to, needed to configure GL
      * @param exampleIndex índice del ejemplo del menú (0 = Base, 1 = 001, … 16 = 015)
+     * @param sceneIndex índice de escena "Scenes OpenGL" (-1 = no, 0 = Floor, …)
      */
-    inline Renderer(android_app *pApp, int exampleIndex = 0) :
+    inline Renderer(android_app *pApp, int exampleIndex = 0, int sceneIndex = -1) :
             app_(pApp),
             exampleIndex_(exampleIndex),
+            sceneIndex_(sceneIndex),
             display_(EGL_NO_DISPLAY),
             surface_(EGL_NO_SURFACE),
             context_(EGL_NO_CONTEXT),
@@ -85,6 +89,7 @@ private:
 
     android_app *app_;
     int exampleIndex_;
+    int sceneIndex_;
     EGLDisplay display_;
     EGLSurface surface_;
     EGLContext context_;
@@ -111,6 +116,8 @@ private:
     std::vector<uint16_t> coloredIndices2_;
 
     GLuint backButtonTextureId_ = 0;
+    std::unique_ptr<TileTextureManager> tileTextureManager_;
+    std::unique_ptr<LevelManager> levelManager_;
     static constexpr int kBackButtonLeft = 20;
     static constexpr int kBackButtonTop = 20;
     static constexpr int kBackButtonWidth = 200;

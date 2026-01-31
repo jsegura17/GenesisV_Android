@@ -21,7 +21,7 @@ void handle_cmd(android_app *pApp, int32_t cmd) {
             // "game" class if that suits your needs. Remember to change all instances of userData
             // if you change the class here as a reinterpret_cast is dangerous this in the
             // android_main function and the APP_CMD_TERM_WINDOW handler case.
-            pApp->userData = new Renderer(pApp, getExampleIndex());
+            pApp->userData = new Renderer(pApp, getExampleIndex(), getSceneIndex());
             break;
         case APP_CMD_TERM_WINDOW:
             // The window is being destroyed. Use this to clean up your userData to avoid leaking

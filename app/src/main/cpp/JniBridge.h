@@ -6,6 +6,9 @@ struct android_app;
 /*! Índice del ejemplo seleccionado en el menú (0 = Base, 1 = 001, … 16 = 015). */
 int getExampleIndex();
 
+/*! Índice de escena desde "Scenes OpenGL" (-1 = no escena, 0 = Floor, 1 = Background, …). */
+int getSceneIndex();
+
 /*! Pide a la Activity que cierre (vuelve al menú). Llamar desde el hilo de render. */
 void requestFinishActivity(android_app *app);
 

@@ -1,5 +1,6 @@
 package com.example.genesisv
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -8,12 +9,15 @@ import com.google.androidgamesdk.GameActivity
 class MainActivity : GameActivity() {
 
     companion object {
+        const val EXTRA_SCENE_INDEX = "com.example.genesisv.SCENE_INDEX"
+
         init {
             System.loadLibrary("genesisv")
         }
     }
 
     external fun setExampleIndex(index: Int)
+    external fun setSceneIndex(index: Int)
     external fun setBackButtonLabelBitmap(width: Int, height: Int, pixels: ByteArray)
 
     /** Llamado desde native cuando el usuario toca "Back Menu"; cierra la actividad en el UI thread. */
@@ -22,9 +26,25 @@ class MainActivity : GameActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Establecer índice de escena o ejemplo antes de super.onCreate() por si la superficie
+        // se crea ahí; así el Renderer nativo recibe el valor correcto al crearse.
+        val sceneIndex = intent?.getIntExtra(EXTRA_SCENE_INDEX, -1) ?: -1
+        if (sceneIndex >= 0) {
+            setSceneIndex(sceneIndex)
+        } else {
+            val exampleIndex = intent?.getIntExtra(MenuActivity.EXTRA_EXAMPLE_INDEX, 0) ?: 0
+            setExampleIndex(exampleIndex)
+        }
         super.onCreate(savedInstanceState)
-        val index = intent?.getIntExtra(MenuActivity.EXTRA_EXAMPLE_INDEX, 0) ?: 0
-        setExampleIndex(index)
+
+        val prefs = getSharedPreferences(ParametersActivity.PREFS_NAME, MODE_PRIVATE)
+        val rotationEnabled = prefs.getBoolean(ParametersActivity.KEY_SCREEN_ROTATION, true)
+        requestedOrientation = if (rotationEnabled) {
+            ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
+
         createBackButtonLabelBitmap()
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

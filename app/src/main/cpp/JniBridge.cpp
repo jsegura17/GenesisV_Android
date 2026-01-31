@@ -5,6 +5,7 @@
 #include <game-activity/native_app_glue/android_native_app_glue.h>
 
 static int g_exampleIndex = 0;
+static int g_sceneIndex = -1;
 
 static jobject g_activityRef = nullptr;
 
@@ -14,6 +15,10 @@ static uint8_t *g_pendingLabelPixels = nullptr;
 
 int getExampleIndex() {
     return g_exampleIndex;
+}
+
+int getSceneIndex() {
+    return g_sceneIndex;
 }
 
 void setPendingBackButtonLabel(int width, int height, const uint8_t *pixels) {
@@ -72,6 +77,16 @@ Java_com_example_genesisv_MainActivity_setExampleIndex(JNIEnv *env, jobject thiz
         env->DeleteGlobalRef(g_activityRef);
     g_activityRef = (thiz && env) ? env->NewGlobalRef(thiz) : nullptr;
     g_exampleIndex = static_cast<int>(index);
+    g_sceneIndex = -1;
+}
+
+JNIEXPORT void JNICALL
+Java_com_example_genesisv_MainActivity_setSceneIndex(JNIEnv *env, jobject thiz, jint index) {
+    if (g_activityRef && env)
+        env->DeleteGlobalRef(g_activityRef);
+    g_activityRef = (thiz && env) ? env->NewGlobalRef(thiz) : nullptr;
+    g_sceneIndex = static_cast<int>(index);
+    g_exampleIndex = 0;
 }
 
 JNIEXPORT void JNICALL

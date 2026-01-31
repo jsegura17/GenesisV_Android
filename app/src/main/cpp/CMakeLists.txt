@@ -11,10 +11,12 @@ add_library(genesisv SHARED
         main.cpp
         AndroidOut.cpp
         JniBridge.cpp
+        LevelManager.cpp
         Renderer.cpp
         Shader.cpp
         ShaderColor.cpp
         TextureAsset.cpp
+        TileTextureManager.cpp
         Utility.cpp)
 
 # Searches for a package provided by the game activity dependency

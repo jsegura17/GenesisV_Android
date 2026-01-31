@@ -20,9 +20,26 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ExamplesListActivity"
+            android:exported="false"
+            android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".ScenesMenuActivity"
+            android:exported="false"
+            android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".ParametersActivity"
+            android:exported="false"
+            android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".UnderConstructionActivity"
+            android:exported="false"
+            android:parentActivityName=".ScenesMenuActivity" />
+        <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".ExamplesListActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="genesisv" />

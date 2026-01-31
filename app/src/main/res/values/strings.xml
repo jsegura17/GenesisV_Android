@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">GenesisV</string>
-    <string name="menu_title">Selecciona un ejemplo</string>
+    <string name="menu_title">Menú Principal</string>
+    <string name="menu_ejemplos_opengl">Ejemplos OpenGL</string>
+    <string name="menu_scenes_opengl">Scenes OpenGL</string>
+    <string name="menu_parametros">Parametros</string>
+    <string name="menu_exit_app">Exit App</string>
+    <string name="params_title">Parametros</string>
+    <string name="params_rotation">Activar Rotación de Pantalla</string>
+    <string name="examples_list_title">Ejemplos OpenGL</string>
+    <string name="scenes_list_title">Scenes OpenGL</string>
+    <string name="scene_floor">Scene 2D - Platform - Floor</string>
+    <string name="scene_background">Scene 2D - Platform - Background</string>
+    <string name="scene_static_obj">Scene 2D - Platform - Static Obj</string>
+    <string name="scene_anim">Scene 2D - Platform - Anim</string>
+    <string name="scene_player">Scene 2D - Platform - Player</string>
+    <string name="under_construction">Under Construction...</string>
 </resources>
