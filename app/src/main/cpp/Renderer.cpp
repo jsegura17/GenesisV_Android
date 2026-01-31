@@ -720,7 +720,12 @@ void Renderer::buildCubeMultiTexture(AAssetManager *assetManager) {
         std::vector<Index> i = {0, 1, 2, 0, 2, 3};
         models_.emplace_back(face, i, tex);
     };
-    addFace(makeCubeVertices(s, 0, 0, 1, 1), spWood); // front
+    addFace({
+                 Vertex(Vector3{-s, -s, s}, Vector2{0.f, 0.f}),
+                 Vertex(Vector3{s, -s, s}, Vector2{1.f, 0.f}),
+                 Vertex(Vector3{s, s, s}, Vector2{1.f, 1.f}),
+                 Vertex(Vector3{-s, s, s}, Vector2{0.f, 1.f})
+         }, spWood); // front
     addFace({
                  Vertex(Vector3{-s, -s, -s}, Vector2{1, 0}),
                  Vertex(Vector3{-s, s, -s}, Vector2{1, 1}),

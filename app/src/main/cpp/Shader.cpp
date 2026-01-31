@@ -52,8 +52,8 @@ Shader *Shader::loadShader(
             GLint projectionMatrixUniform = glGetUniformLocation(
                     program,
                     projectionMatrixUniformName.c_str());
+            GLint texOffsetUniform = glGetUniformLocation(program, "uTexOffset");
 
-            // Only create a new shader if all the attributes are found.
             if (positionAttribute != -1
                 && uvAttribute != -1
                 && projectionMatrixUniform != -1) {
@@ -62,7 +62,8 @@ Shader *Shader::loadShader(
                         program,
                         positionAttribute,
                         uvAttribute,
-                        projectionMatrixUniform);
+                        projectionMatrixUniform,
+                        texOffsetUniform != -1 ? texOffsetUniform : -1);
             } else {
                 glDeleteProgram(program);
             }
