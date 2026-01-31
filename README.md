@@ -111,7 +111,7 @@ app/src/main/
 ### License
 
 Educational project. Use and modify as you like.
-
+2026 - GenesisCGt - GameDivision
 ---
 
 ## Español
@@ -221,3 +221,4 @@ app/src/main/
 ### Licencia
 
 Proyecto educativo. Puedes usarlo y modificarlo libremente.
+2026 - GenesisCGt - GameDivision
